@@ -1,0 +1,219 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+body{
+  height: 100vh;
+  background-color: #3a3a3a;
+}
+header{
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+  background-color:#00daea53
+}
+
+.addInput{
+  padding: 20px;
+  width: 400px;
+  border-radius: 10px;
+    border: 3px solid black;
+}
+.addInput:hover{
+    border: 3px solid #00CCC0;
+}
+main{
+  display: flex;
+  flex-direction: column;
+   height: 100vh;
+}
+.container{
+  display: flex;
+  justify-content: space-around;
+}
+.boxContainer{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.box{
+  border: 4px solid white;
+  border-radius: 5px;
+  height: 470px;
+  width: 360px;
+  padding: 10px;
+  margin: 20px;
+  margin-top: 40px;
+  justify-content: space-around;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  background-color: rgb(33, 33, 33);
+}
+.boxName{
+  color: white;
+  font-size: 20px;
+}
+.movieImage{
+  border: 3px solid white;
+  max-height: 330px;
+  max-width: 330px;
+}
+.stars{
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+}
+.notes{
+  margin-top: 10px;
+  border: 2px solid black;
+  padding: 8px;
+  border-radius: 10px;
+  background-color: white;
+  border: 3px solid white;
+}
+.notes:hover{
+  cursor: pointer;
+  border: 3px solid  red;
+
+}
+.pillar{
+ 
+  width: 300px;
+  padding: 30px;
+}
+
+
+.modalBody{
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, .5);
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  z-index: 2000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContainer{
+  width: 1260px;
+  height: 700px;
+  background-color: rgb(108, 108, 108);
+  border: 3px solid white;
+  border-radius: 10px;
+}
+.modalHeader{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100px;
+  
+
+}
+.modalName{
+  padding: 10px;
+  font-size: 40px;
+  position: sticky;
+  color: white;
+}
+.modalExitLeft{
+border: 2px solid rgb(108, 108, 108);
+padding: 20px;
+}
+.modalExit{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  border: 2px solid red;
+  border-radius: 10px;
+  padding: 10px;
+  height: 30px;
+  width: 30px;
+  right: 40px;
+  color: white;
+  font-size: 25px;
+  background-color: black;
+}
+.modalExit:hover{
+  cursor: pointer;
+  color: red;
+}
+
+.modalMain{
+display: flex;
+justify-content: space-between;
+}
+.mainLeft{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 600px;
+  height: 500px;
+}
+.mainRight{
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  align-items: center;
+  width: 600px;
+  height: 500px;
+}
+.modalStars{
+font-size: 50px;
+display: flex;
+}
+.star{
+  margin: 5px;
+  font-size: 40px;
+}
+.star:hover{
+cursor: pointer;
+}
+.modalNotes{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid white;
+  padding: 20px;
+  height: 200px;
+  width: 400px;
+  font-size: 20px;
+  color: black;
+  margin: 20px;
+}
+.modalDone{
+  position: relative;
+  top: 90px;
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+    border: 3px solid white;
+}
+.modalDone:hover{
+  cursor: pointer;
+  border: 3px solid #00CCC0;
+}
+.modalImageBox{
+ height: 470px;
+  width: 360px;
+  margin: 20px;
+}
+.modalImage{
+  max-height: 500px;
+  max-width: 460px;
+  display: none;
+  border: 3px solid white;
+}
+.imageUrl{
+  padding: 10px;
+  border-radius: 4px;
+  border: 2px solid white;
+}
