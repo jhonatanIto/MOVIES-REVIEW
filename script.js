@@ -1,22 +1,15 @@
-const input = document.getElementById("input");
 const boxContainer = document.getElementById("boxContainer");
 const body = document.getElementById("body");
 
 const savedMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
-const movies = [];
+let movies = [];
 let editOrDone = false;
+let starsEdit = true;
+
 movies.push(...savedMovies);
 
 movies.forEach((movie) => createCards(movie));
-
-// input.addEventListener("keydown", function (e) {
-//   if (e.key === "Enter" && input.value !== "") {
-//     createModal();
-//   } else if (e.key === "Enter" && input.value === "") {
-//     alert("Insert movie name");
-//   }
-// });
 
 function createCards(movie) {
   const box = document.createElement("div");
@@ -62,12 +55,16 @@ function createCards(movie) {
   const thisMovie = movies.find((film) => film.id === box.id);
   box.addEventListener("click", () => {
     editOrDone = true;
+
     createModal(thisMovie);
   });
 }
 
 const movieSearchBox = document.getElementById("input");
 const searchList = document.getElementById("searchList");
+movieSearchBox.addEventListener("click", () => {
+  starsEdit = true;
+});
 
 async function loadMovies(searchTerm) {
   const URL = `https://www.omdbapi.com/?s=${searchTerm}&page=1&apikey=4679883e`;
@@ -125,7 +122,7 @@ function loadMovieDetails() {
         `http://www.omdbapi.com/?i=${movie.dataset.id}&apikey=4679883e`
       );
       const movieDetails = await result.json();
-      console.log(movieDetails);
+
       createModal(movieDetails);
       //.Title .Poster
     });
@@ -151,20 +148,20 @@ function createModal(movie) {
   const mainRight = document.createElement("div");
   const modalNotes = document.createElement("textarea");
   const modalDone = document.createElement("div");
+  const modalDelete = document.createElement("div");
 
   const modalImageBox = document.createElement("div");
   const modalImage = document.createElement("img");
 
+  const starElements = [star1, star2, star3, star4, star5];
   modalName.innerHTML = movie.Title;
-  modalNotes.value = movie.review;
-  star1.innerHTML = "☆";
-  star2.innerHTML = "☆";
-  star3.innerHTML = "☆";
-  star4.innerHTML = "☆";
-  star5.innerHTML = "☆";
-  modalDone.innerHTML = "DONE";
+  modalNotes.value = editOrDone ? movie.review : "";
+
   modalExit.innerHTML = "x";
   modalExit.src = "images/arrow.png";
+  editOrDone ? (modalNotes.style.pointerEvents = "none") : "auto";
+  modalDelete.innerHTML = "delete";
+  modalDelete.style.display = "none";
 
   modalBody.classList.add("modalBody");
   modalContainer.classList.add("modalContainer");
@@ -183,6 +180,7 @@ function createModal(movie) {
   star5.classList.add("stars");
   modalNotes.classList.add("modalNotes");
   modalDone.classList.add("modalDone");
+  modalDelete.classList.add("modalDelete");
 
   mainRight.classList.add("mainRight");
 
@@ -210,9 +208,18 @@ function createModal(movie) {
 
   mainLeft.appendChild(modalNotes);
   modalContainer.appendChild(modalDone);
+  modalContainer.appendChild(modalDelete);
 
   mainRight.appendChild(modalImageBox);
   modalImageBox.appendChild(modalImage);
+  modalBody.id = "modalBody";
+
+  modalBody.addEventListener("click", (e) => {
+    if (e.target.id === "modalBody") {
+      modalBody.style.display = "none";
+      starEdit = false;
+    }
+  });
 
   let rating = 0;
 
@@ -223,185 +230,74 @@ function createModal(movie) {
     editOrDone = false;
   });
 
-  function starRate(rate) {
-    if (editOrDone === false) {
-      star1.addEventListener("mouseenter", () => {
-        star1.style.color = "yellow";
-      });
-      star1.addEventListener("mouseleave", () => {
-        star1.style.color = "white";
-      });
-      star1.addEventListener("click", () => {
-        star1.innerHTML = "⭐";
-        star2.innerHTML = "☆";
-        star3.innerHTML = "☆";
-        star4.innerHTML = "☆";
-        star5.innerHTML = "☆";
-        rating = 1;
-        const all = document.querySelectorAll(".star");
-        all.forEach((el) => {
-          el.style.fontSize = "30px";
-        });
-      });
-
-      // ONE STAR
-
-      star2.addEventListener("mouseenter", () => {
-        star1.style.color = "yellow";
-        star2.style.color = "yellow";
-      });
-      star2.addEventListener("mouseleave", () => {
-        star1.style.color = "white";
-        star2.style.color = "white";
-      });
-      star2.addEventListener("click", () => {
-        star1.innerHTML = "⭐";
-        star2.innerHTML = "⭐";
-        star3.innerHTML = "☆";
-        star4.innerHTML = "☆";
-        star5.innerHTML = "☆";
-        rating = 2;
-        const all = document.querySelectorAll(".star");
-        all.forEach((el) => {
-          el.style.fontSize = "30px";
-        });
-      });
-
-      // TWO STARS
-      star3.addEventListener("mouseenter", () => {
-        star1.style.color = "yellow";
-        star2.style.color = "yellow";
-        star3.style.color = "yellow";
-      });
-      star3.addEventListener("mouseleave", () => {
-        star1.style.color = "white";
-        star2.style.color = "white";
-        star3.style.color = "white";
-      });
-      star3.addEventListener("click", () => {
-        star1.innerHTML = "⭐";
-        star2.innerHTML = "⭐";
-        star3.innerHTML = "⭐";
-        star4.innerHTML = "☆";
-        star5.innerHTML = "☆";
-        rating = 3;
-        const all = document.querySelectorAll(".star");
-        all.forEach((el) => {
-          el.style.fontSize = "30px";
-        });
-      });
-      // THREE STARS
-
-      star4.addEventListener("mouseenter", () => {
-        star1.style.color = "yellow";
-        star2.style.color = "yellow";
-        star3.style.color = "yellow";
-        star4.style.color = "yellow";
-      });
-
-      star4.addEventListener("mouseleave", () => {
-        star1.style.color = "white";
-        star2.style.color = "white";
-        star3.style.color = "white";
-        star4.style.color = "white";
-      });
-      star4.addEventListener("click", () => {
-        star1.innerHTML = "⭐";
-        star2.innerHTML = "⭐";
-        star3.innerHTML = "⭐";
-        star4.innerHTML = "⭐";
-        star5.innerHTML = "☆";
-        rating = 4;
-        const all = document.querySelectorAll(".star");
-        all.forEach((el) => {
-          el.style.fontSize = "30px";
-        });
-      });
-      //  FOUR STARS
-
-      star5.addEventListener("mouseenter", () => {
-        star1.style.color = "yellow";
-        star2.style.color = "yellow";
-        star3.style.color = "yellow";
-        star4.style.color = "yellow";
-        star5.style.color = "yellow";
-      });
-      star5.addEventListener("mouseleave", () => {
-        star1.style.color = "white";
-        star2.style.color = "white";
-        star3.style.color = "white";
-        star4.style.color = "white";
-        star5.style.color = "white";
-      });
-      star5.addEventListener("click", () => {
-        star1.innerHTML = "⭐";
-        star2.innerHTML = "⭐";
-        star3.innerHTML = "⭐";
-        star4.innerHTML = "⭐";
-        star5.innerHTML = "⭐";
-        rating = 5;
-        const all = document.querySelectorAll(".star");
-        all.forEach((el) => {
-          el.style.fontSize = "30px";
-        });
-      });
-    } else {
-      switch (rate) {
-        case 1:
-          star1.innerHTML = "⭐";
-          star2.innerHTML = "☆";
-          star3.innerHTML = "☆";
-          star4.innerHTML = "☆";
-          star5.innerHTML = "☆";
-          break;
-        case 2:
-          star1.innerHTML = "⭐";
-          star2.innerHTML = "⭐";
-          star3.innerHTML = "☆";
-          star4.innerHTML = "☆";
-          star5.innerHTML = "☆";
-          break;
-        case 3:
-          star1.innerHTML = "⭐";
-          star2.innerHTML = "⭐";
-          star3.innerHTML = "⭐";
-          star4.innerHTML = "☆";
-          star5.innerHTML = "☆";
-          break;
-        case 4:
-          star1.innerHTML = "⭐";
-          star2.innerHTML = "⭐";
-          star3.innerHTML = "⭐";
-          star4.innerHTML = "⭐";
-          star5.innerHTML = "☆";
-          break;
-        case 5:
-          star1.innerHTML = "⭐";
-          star2.innerHTML = "⭐";
-          star3.innerHTML = "⭐";
-          star4.innerHTML = "⭐";
-          star5.innerHTML = "⭐";
-          break;
-      }
-    }
-    // FIVE STARS
-  }
-  starRate(movie.rate);
-
-  modalDone.innerHTML = editOrDone ? "Edit" : "Done";
-  modalDone.addEventListener("click", () => {
-    movies.push({
-      Title: movie.Title,
-      rate: rating,
-      review: modalNotes.value,
-      Poster: movie.Poster,
-      id: movie.imdbID,
+  function renderStars(rate) {
+    starElements.forEach((star, index) => {
+      star.innerHTML = index < rate ? "⭐" : "☆";
+      star.style.color = "white";
     });
+  }
 
+  renderStars(movie.rate);
+
+  starElements.forEach((star, index) => {
+    const value = index + 1;
+
+    star.addEventListener("mouseenter", () => {
+      if (starsEdit) star.style.color = "yellow";
+    });
+    star.addEventListener("mouseleave", () => {
+      renderStars(rating || movie.rate);
+    });
+    star.addEventListener("click", () => {
+      rating = value;
+      renderStars(rating);
+    });
+  });
+
+  modalDone.innerHTML = editOrDone ? "Edit" : "Save";
+  modalDone.addEventListener("click", () => {
+    if (!editOrDone && modalDone.innerHTML === "Save") {
+      movies.push({
+        Title: movie.Title,
+        rate: rating,
+        review: modalNotes.value,
+        Poster: movie.Poster,
+        id: movie.imdbID,
+      });
+
+      localStorage.setItem("movies", JSON.stringify(movies));
+      modalBody.style.display = "none";
+
+      const thisMovie = movies.find((film) => film.Title === movie.Title);
+      createCards(thisMovie);
+    } else if (editOrDone && modalDone.innerHTML === "Edit") {
+      modalDelete.style.display = "flex";
+      modalNotes.style.pointerEvents = "auto";
+      modalDone.innerHTML = "Save";
+      starsEdit = true;
+    } else if (editOrDone && modalDone.innerHTML === "Save") {
+      const movieIndex = movies.findIndex((film) => film.id === movie.id);
+      movies[movieIndex] = {
+        ...movies[movieIndex],
+        review: modalNotes.value,
+        rate: rating,
+      };
+
+      localStorage.setItem("movies", JSON.stringify(movies));
+      modalBody.style.display = "none";
+      boxContainer.innerHTML = "";
+      editOrDone = false;
+      starEdit = false;
+      movies.forEach(createCards);
+    }
+  });
+
+  modalDelete.addEventListener("click", () => {
+    movies = movies.filter((film) => film.id !== movie.id);
     localStorage.setItem("movies", JSON.stringify(movies));
     modalBody.style.display = "none";
-
-    const thisMovie = movies.find((film) => film.Title === movie.Title);
-    createCards(thisMovie);
+    boxContainer.innerHTML = "";
+    movies.forEach(createCards);
+    editOrDone = false;
   });
 }
