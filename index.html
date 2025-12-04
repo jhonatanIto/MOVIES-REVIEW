@@ -1,25 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <title>Document</title>
-</head>
-<body id="body">
-  <main>
-    <header>
-      <input id="input" class="addInput" type="text" placeholder="Add Movie">
-    </header>
-    <div class="container">
-      <div class="pillar"></div>
-      <div id="boxContainer" class="boxContainer">
-        
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>My-Review</title>
+  </head>
+  <body id="body">
+    <main>
+      <header>
+        <div class="top">My Review</div>
+      </header>
+      <div class="searchContainer">
+        <div class="searchElement">
+          <input
+            onkeyup="findMovies()"
+            id="input"
+            class="addInput"
+            type="text"
+            placeholder="Add Movie"
+          />
+          <div class="searchList hide-search-list" id="searchList"></div>
+        </div>
       </div>
-      <div class="pillar"></div>
-    </div>
-    
-  </main>
-  <script src="script.js"></script>
-</body>
+
+      <div class="container">
+        <div class="pillar"></div>
+        <div id="boxContainer" class="boxContainer"></div>
+        <div class="pillar"></div>
+      </div>
+    </main>
+    <script src="script.js "></script>
+  </body>
 </html>
