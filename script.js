@@ -5,7 +5,7 @@ const savedMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
 let movies = [];
 let editOrDone = false;
-let starsEdit = true;
+let starsEdit = false;
 
 movies.push(...savedMovies);
 
@@ -29,9 +29,12 @@ function createCards(movie) {
   movieImage.classList.add("movieImage");
   starsContainer.classList.add("cardStars");
 
+  const posterLow = movie.Poster;
+  const posterHigh = posterLow.split("@._V1_")[0] + "@.jpg";
+
   box.id = movie.id;
   boxName.innerHTML = movie.Title;
-  movieImage.src = movie.Poster;
+  movieImage.src = posterHigh;
   switch (movie.rate) {
     case 1:
       stars.innerHTML = "⭐";
@@ -55,6 +58,7 @@ function createCards(movie) {
   const thisMovie = movies.find((film) => film.id === box.id);
   box.addEventListener("click", () => {
     editOrDone = true;
+    console.log(movie);
 
     createModal(thisMovie);
   });
@@ -130,6 +134,11 @@ function loadMovieDetails() {
 }
 
 function createModal(movie) {
+  const posterLow = movie.Poster;
+  const posterHigh = posterLow.split("@._V1_")[0] + "@.jpg";
+  console.log(posterLow);
+  console.log(posterHigh);
+
   const modalBody = document.createElement("div");
   const modalContainer = document.createElement("div");
   const modalHeader = document.createElement("div");
@@ -217,13 +226,14 @@ function createModal(movie) {
   modalBody.addEventListener("click", (e) => {
     if (e.target.id === "modalBody") {
       modalBody.style.display = "none";
-      starEdit = false;
+      editOrDone = false;
+      starsEdit = false;
     }
   });
 
   let rating = 0;
 
-  modalImage.src = movie.Poster;
+  modalImage.src = posterHigh;
 
   modalExit.addEventListener("click", function () {
     modalBody.style.display = "none";
@@ -249,8 +259,10 @@ function createModal(movie) {
       renderStars(rating || movie.rate);
     });
     star.addEventListener("click", () => {
-      rating = value;
-      renderStars(rating);
+      if (starsEdit) {
+        rating = value;
+        renderStars(rating);
+      }
     });
   });
 
@@ -264,7 +276,7 @@ function createModal(movie) {
         Poster: movie.Poster,
         id: movie.imdbID,
       });
-
+      starsEdit = false;
       localStorage.setItem("movies", JSON.stringify(movies));
       modalBody.style.display = "none";
 
@@ -275,6 +287,7 @@ function createModal(movie) {
       modalNotes.style.pointerEvents = "auto";
       modalDone.innerHTML = "Save";
       starsEdit = true;
+      rating = movie.rate;
     } else if (editOrDone && modalDone.innerHTML === "Save") {
       const movieIndex = movies.findIndex((film) => film.id === movie.id);
       movies[movieIndex] = {
@@ -287,7 +300,7 @@ function createModal(movie) {
       modalBody.style.display = "none";
       boxContainer.innerHTML = "";
       editOrDone = false;
-      starEdit = false;
+      starsEdit = false;
       movies.forEach(createCards);
     }
   });
