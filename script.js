@@ -58,7 +58,6 @@ function createCards(movie) {
   const thisMovie = movies.find((film) => film.id === box.id);
   box.addEventListener("click", () => {
     editOrDone = true;
-    console.log(movie);
 
     createModal(thisMovie);
   });
@@ -136,13 +135,16 @@ function loadMovieDetails() {
 function createModal(movie) {
   const posterLow = movie.Poster;
   const posterHigh = posterLow.split("@._V1_")[0] + "@.jpg";
-  console.log(posterLow);
-  console.log(posterHigh);
 
   const modalBody = document.createElement("div");
   const modalContainer = document.createElement("div");
   const modalHeader = document.createElement("div");
-  const modalExitRight = document.createElement("div");
+  const modalType = document.createElement("select");
+  const typeMovie = document.createElement("option");
+  const typeSeries = document.createElement("option");
+  const typeBook = document.createElement("option");
+  const typeGame = document.createElement("option");
+  const typeAnime = document.createElement("option");
   const modalName = document.createElement("div");
   const modalExit = document.createElement("img");
 
@@ -175,7 +177,7 @@ function createModal(movie) {
   modalBody.classList.add("modalBody");
   modalContainer.classList.add("modalContainer");
   modalHeader.classList.add("modalHeader");
-  modalExitRight.classList.add("modalExitLeft");
+  modalType.classList.add("modalType");
   modalName.classList.add("modalName");
   modalExit.classList.add("modalExit");
 
@@ -203,7 +205,12 @@ function createModal(movie) {
 
   modalHeader.appendChild(modalExit);
   modalHeader.appendChild(modalName);
-  modalHeader.appendChild(modalExitRight);
+  modalHeader.appendChild(modalType);
+  modalType.appendChild(typeMovie);
+  modalType.appendChild(typeSeries);
+  modalType.appendChild(typeBook);
+  modalType.appendChild(typeAnime);
+  modalType.appendChild(typeGame);
 
   modalMain.appendChild(mainLeft);
   modalMain.appendChild(mainRight);
@@ -223,6 +230,18 @@ function createModal(movie) {
   modalImageBox.appendChild(modalImage);
   modalBody.id = "modalBody";
 
+  typeMovie.innerHTML = "Movie";
+  typeSeries.innerHTML = "Series";
+  typeBook.innerHTML = "Book";
+  typeAnime.innerHTML = "Anime/Manga";
+  typeGame.innerHTML = "Game";
+
+  typeMovie.value = "Movie";
+  typeSeries.value = "Series";
+  typeBook.value = "Book";
+  typeAnime.value = "Anime/Manga";
+  typeGame.value = "Game";
+
   modalBody.addEventListener("click", (e) => {
     if (e.target.id === "modalBody") {
       modalBody.style.display = "none";
@@ -232,6 +251,18 @@ function createModal(movie) {
   });
 
   let rating = 0;
+  let type = "Movie";
+  modalType.value = movie.type ? movie.type : "Movie";
+
+  modalType.addEventListener("change", () => {
+    type = modalType.value;
+  });
+
+  if (starsEdit) {
+    modalType.classList.remove("modalTypeNone");
+  } else {
+    modalType.classList.add("modalTypeNone");
+  }
 
   modalImage.src = posterHigh;
 
@@ -275,10 +306,12 @@ function createModal(movie) {
         review: modalNotes.value,
         Poster: movie.Poster,
         id: movie.imdbID,
+        type: type,
       });
       starsEdit = false;
       localStorage.setItem("movies", JSON.stringify(movies));
       modalBody.style.display = "none";
+      modalType.classList.add("modalTypeNone");
 
       const thisMovie = movies.find((film) => film.Title === movie.Title);
       createCards(thisMovie);
@@ -288,12 +321,14 @@ function createModal(movie) {
       modalDone.innerHTML = "Save";
       starsEdit = true;
       rating = movie.rate;
+      modalType.classList.remove("modalTypeNone");
     } else if (editOrDone && modalDone.innerHTML === "Save") {
       const movieIndex = movies.findIndex((film) => film.id === movie.id);
       movies[movieIndex] = {
         ...movies[movieIndex],
         review: modalNotes.value,
         rate: rating,
+        type: type,
       };
 
       localStorage.setItem("movies", JSON.stringify(movies));

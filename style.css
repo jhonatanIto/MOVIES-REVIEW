@@ -235,8 +235,27 @@ main {
   width: 40px;
   cursor: pointer;
 }
-.modalExitLeft {
-  width: 40px;
+.modalType {
+  text-align: center;
+  text-align-last: center;
+  width: 90px;
+  padding: 3px;
+  background: none;
+  color: white;
+  border: none;
+  border: 1px solid white;
+  font-size: 13px;
+  cursor: pointer;
+}
+.modalType option {
+  background-color: #1f1f1f;
+}
+.modalTypeNone {
+  pointer-events: none;
+  appearance: none;
+  cursor: auto;
+  border: none;
+  border-bottom: 1px solid white;
 }
 
 .modalMain {
