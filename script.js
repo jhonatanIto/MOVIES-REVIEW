@@ -1,15 +1,37 @@
 const boxContainer = document.getElementById("boxContainer");
 const body = document.getElementById("body");
+const allCount = document.getElementById("allCount");
+const moviesCount = document.getElementById("moviesCount");
+const seriesCount = document.getElementById("seriesCount");
+const animeCount = document.getElementById("animeCount");
+const gameCount = document.getElementById("gameCount");
+const tabs = document.querySelectorAll(".tab");
+const tabsArray = [...tabs];
 
 const savedMovies = JSON.parse(localStorage.getItem("movies")) || [];
 
 let movies = [];
 let editOrDone = false;
 let starsEdit = false;
-
+let currTab = movies;
+let selectedTab = "All";
 movies.push(...savedMovies);
 
 movies.forEach((movie) => createCards(movie));
+
+function displayCounts() {
+  const movieLength = movies.filter((movie) => movie.type === "Movie");
+  const seriesLength = movies.filter((movie) => movie.type === "Series");
+  const animeLength = movies.filter((movie) => movie.type === "Anime/Manga");
+  const gameLength = movies.filter((movie) => movie.type === "Game");
+
+  allCount.innerHTML = `(${movies.length})`;
+  moviesCount.innerHTML = `(${movieLength.length})`;
+  seriesCount.innerHTML = `(${seriesLength.length})`;
+  animeCount.innerHTML = `(${animeLength.length})`;
+  gameCount.innerHTML = `(${gameLength.length})`;
+}
+displayCounts();
 
 function createCards(movie) {
   const box = document.createElement("div");
@@ -132,6 +154,53 @@ function loadMovieDetails() {
   });
 }
 
+function updateCurrTab(type) {
+  currTab = movies.filter((movie) => movie.type === type);
+}
+
+function whiteTab(t) {
+  let whiteTab = tabsArray.filter((tab) => tab.id !== t);
+  let orangeTab = tabsArray.find((tab) => tab.id === t);
+  whiteTab.forEach((tab) => tab.classList.remove("tabSelected"));
+  orangeTab.classList.add("tabSelected");
+}
+
+function displayTypes() {
+  tabs.forEach((tab) => {
+    tab.addEventListener("click", () => {
+      boxContainer.innerHTML = "";
+
+      if (tab.id === "All") {
+        selectedTab = "All";
+        whiteTab(tab.id);
+        movies.forEach((movie) => createCards(movie));
+      } else if (tab.id === "Movie") {
+        selectedTab = "Movie";
+        whiteTab(tab.id);
+        updateCurrTab("Movie");
+
+        currTab.forEach((movie) => createCards(movie));
+      } else if (tab.id === "Anime/Manga") {
+        selectedTab = "Anime/Manga";
+        whiteTab(tab.id);
+        updateCurrTab("Anime/Manga");
+        currTab.forEach((movie) => createCards(movie));
+      } else if (tab.id === "Series") {
+        selectedTab = "Series";
+        whiteTab(tab.id);
+        updateCurrTab("Series");
+        currTab.forEach((movie) => createCards(movie));
+      } else if (tab.id === "Game") {
+        selectedTab = "Game";
+        whiteTab(tab.id);
+        updateCurrTab("Game");
+        currTab.forEach((game) => createCards(game));
+      }
+    });
+  });
+}
+displayTypes();
+
 function createModal(movie) {
   const posterLow = movie.Poster;
   const posterHigh = posterLow.split("@._V1_")[0] + "@.jpg";
@@ -142,7 +211,6 @@ function createModal(movie) {
   const modalType = document.createElement("select");
   const typeMovie = document.createElement("option");
   const typeSeries = document.createElement("option");
-  const typeBook = document.createElement("option");
   const typeGame = document.createElement("option");
   const typeAnime = document.createElement("option");
   const modalName = document.createElement("div");
@@ -208,7 +276,6 @@ function createModal(movie) {
   modalHeader.appendChild(modalType);
   modalType.appendChild(typeMovie);
   modalType.appendChild(typeSeries);
-  modalType.appendChild(typeBook);
   modalType.appendChild(typeAnime);
   modalType.appendChild(typeGame);
 
@@ -232,13 +299,11 @@ function createModal(movie) {
 
   typeMovie.innerHTML = "Movie";
   typeSeries.innerHTML = "Series";
-  typeBook.innerHTML = "Book";
   typeAnime.innerHTML = "Anime/Manga";
   typeGame.innerHTML = "Game";
 
   typeMovie.value = "Movie";
   typeSeries.value = "Series";
-  typeBook.value = "Book";
   typeAnime.value = "Anime/Manga";
   typeGame.value = "Game";
 
@@ -251,7 +316,7 @@ function createModal(movie) {
   });
 
   let rating = 0;
-  let type = "Movie";
+  let type = movie.type ? movie.type : "Movie";
   modalType.value = movie.type ? movie.type : "Movie";
 
   modalType.addEventListener("change", () => {
@@ -313,8 +378,12 @@ function createModal(movie) {
       modalBody.style.display = "none";
       modalType.classList.add("modalTypeNone");
 
-      const thisMovie = movies.find((film) => film.Title === movie.Title);
-      createCards(thisMovie);
+      displayCounts();
+      boxContainer.innerHTML = "";
+      updateCurrTab(type);
+      selectedTab === "All"
+        ? movies.forEach((movie) => createCards(movie))
+        : currTab.forEach(createCards);
     } else if (editOrDone && modalDone.innerHTML === "Edit") {
       modalDelete.style.display = "flex";
       modalNotes.style.pointerEvents = "auto";
@@ -330,13 +399,21 @@ function createModal(movie) {
         rate: rating,
         type: type,
       };
-
       localStorage.setItem("movies", JSON.stringify(movies));
       modalBody.style.display = "none";
       boxContainer.innerHTML = "";
       editOrDone = false;
       starsEdit = false;
-      movies.forEach(createCards);
+      selecTab = document.getElementById(movie.type);
+
+      tabsArray.forEach(() => {
+        selectedTab !== "All" ? whiteTab(type) : console.log("wat");
+      });
+      displayCounts();
+      updateCurrTab(movies[movieIndex].type);
+      selectedTab !== "All"
+        ? currTab.forEach((card) => createCards(card))
+        : movies.forEach((card) => createCards(card));
     }
   });
 
@@ -345,7 +422,11 @@ function createModal(movie) {
     localStorage.setItem("movies", JSON.stringify(movies));
     modalBody.style.display = "none";
     boxContainer.innerHTML = "";
-    movies.forEach(createCards);
+    updateCurrTab(movie.type);
+    selectedTab !== "all"
+      ? currTab.forEach((card) => createCards(card))
+      : movies.forEach((card) => createCards(card));
     editOrDone = false;
+    displayCounts();
   });
 }
