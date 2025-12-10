@@ -17,7 +17,7 @@ header {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-
+  width: 100%;
   background-color: #222831;
 }
 .tabsContainer {
@@ -245,6 +245,7 @@ main {
 }
 
 .modalName {
+  margin-left: 50px;
   padding: 10px;
   font-size: 40px;
   position: sticky;
@@ -377,4 +378,71 @@ main {
   display: flex;
   justify-content: space-around;
   align-items: center;
+}
+
+@media (max-width: 600px) {
+  .tabsContainer {
+    margin-top: 20px;
+    width: 100%;
+    font-size: 12px;
+  }
+  .modalContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 360px;
+    height: 800px;
+    background-color: rgb(37, 37, 37);
+    border: 3px solid rgb(255, 48, 48);
+    border-radius: 10px;
+  }
+  .modalName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 25px;
+    margin-left: 0px;
+    padding: 10px;
+    width: 360px;
+  }
+  .modalMain {
+    display: flex;
+    flex-direction: column;
+  }
+  .modalHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .modalNotes {
+    width: 240px;
+    font-size: 20px;
+    height: 150px;
+  }
+  .modalImage {
+    border-radius: 10px;
+    width: 200px;
+    display: block;
+  }
+  .modalImageBox {
+    margin: 0px;
+  }
+  .stars {
+    font-size: 30px;
+    cursor: pointer;
+    color: white;
+  }
+  .modalDone {
+    height: 25px;
+    width: 50px;
+  }
+  .modalExit {
+    width: 30px;
+  }
+  .modalDelete {
+    width: 50px;
+    height: 25px;
+  }
 }
