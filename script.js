@@ -87,8 +87,13 @@ function createCards(movie) {
 
 const movieSearchBox = document.getElementById("input");
 const searchList = document.getElementById("searchList");
-movieSearchBox.addEventListener("click", () => {
+movieSearchBox.addEventListener("focus", () => {
+  movieSearchBox.placeholder = "";
   starsEdit = true;
+});
+movieSearchBox.addEventListener("blur", () => {
+  movieSearchBox.placeholder = "Add movie";
+  starsEdit = false;
 });
 
 async function loadMovies(searchTerm) {
