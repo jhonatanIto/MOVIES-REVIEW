@@ -401,7 +401,7 @@ main {
 @media (max-width: 600px) {
   .top {
     font-size: 30px;
-    font-family: "Bungee Spice", "Bungee", system-ui, sans-serif;
+    font-family: "Bungee", system-ui, sans-serif;
   }
   .tabsContainer {
     justify-content: center;
