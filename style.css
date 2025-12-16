@@ -1,5 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Spice&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Bungee+Spice&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-
 * {
   margin: 0;
   padding: 0;
@@ -154,7 +154,7 @@ header {
   width: 80px;
 }
 .top {
-  font-family: "Bungee Spice", sans-serif;
+  font-family: "Bungee Spice", "Bungee", system-ui, sans-serif;
   font-size: 60px;
   color: white;
   margin-top: 40px;
