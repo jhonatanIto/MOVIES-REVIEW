@@ -49,6 +49,7 @@ header {
   margin: 10px;
   cursor: pointer;
   transition: color 0.4s ease, color 0.4s ease;
+  font-size: 20px;
 }
 .tabSelected {
   color: rgb(255, 98, 0);
@@ -151,7 +152,7 @@ header {
 }
 .top {
   font-family: "Bungee Spice", sans-serif;
-  font-size: 40px;
+  font-size: 60px;
   color: white;
   margin-top: 40px;
 }

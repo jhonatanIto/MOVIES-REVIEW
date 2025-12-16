@@ -1,5 +1,6 @@
 const boxContainer = document.getElementById("boxContainer");
 const body = document.getElementById("body");
+const modalBodyContainer = document.getElementById("modalBodyContainer");
 const allCount = document.getElementById("allCount");
 const moviesCount = document.getElementById("moviesCount");
 const seriesCount = document.getElementById("seriesCount");
@@ -93,7 +94,6 @@ movieSearchBox.addEventListener("focus", () => {
 });
 movieSearchBox.addEventListener("blur", () => {
   movieSearchBox.placeholder = "Add movie";
-  starsEdit = false;
 });
 
 async function loadMovies(searchTerm) {
@@ -207,6 +207,7 @@ function displayTypes() {
 displayTypes();
 
 function createModal(movie) {
+  modalBodyContainer.innerHTML = "";
   const posterLow = movie.Poster;
   const posterHigh = posterLow.split("@._V1_")[0] + "@.jpg";
 
@@ -271,7 +272,7 @@ function createModal(movie) {
   modalImageBox.classList.add("modalImageBox");
   modalImage.classList.add("modalImage");
 
-  body.appendChild(modalBody);
+  modalBodyContainer.appendChild(modalBody);
   modalBody.appendChild(modalContainer);
   modalContainer.appendChild(modalHeader);
   modalContainer.appendChild(modalMain);
