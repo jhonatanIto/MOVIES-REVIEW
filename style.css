@@ -410,7 +410,7 @@ main {
     width: 100px;
   }
   .tab {
-    font-size: 15px;
+    font-size: 12px;
   }
   .modalContainer {
     display: flex;
@@ -418,7 +418,7 @@ main {
     justify-content: center;
     align-items: center;
     width: 360px;
-    height: 620px;
+    height: 650px;
     background-color: rgb(37, 37, 37);
     border: 3px solid rgb(255, 48, 48);
     border-radius: 10px;
@@ -462,13 +462,13 @@ main {
   }
   .modalDone {
     height: 20px;
-    width: 40px;
+    width: 50px;
   }
   .modalExit {
     width: 20px;
   }
   .modalDelete {
     width: 50px;
-    height: 25px;
+    height: 20px;
   }
 }
