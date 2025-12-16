@@ -152,7 +152,7 @@ header {
   width: 80px;
 }
 .top {
-  font-family: "Bungee Spice", sans-serif;
+  font-family: "Bungee Spice", "Bungee", system-ui, sans-serif;
   font-size: 60px;
   color: white;
   margin-top: 40px;
@@ -397,10 +397,6 @@ main {
 }
 
 @media (max-width: 600px) {
-  body {
-    width: 100%;
-    height: 100%;
-  }
   .top {
     font-size: 30px;
   }
